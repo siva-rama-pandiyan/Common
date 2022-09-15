@@ -8,7 +8,7 @@ const users = [
     isAdmin: true,
   },
   {
-    id: 1,
+    id: 2,
     username: "Virat",
     password: "virat1234",
     isAdmin: false,
@@ -21,7 +21,7 @@ const generateAccessToken = (user) => {
   return jwt.sign(
     { id: user.id, isAdmin: user.isAdmin },
     "6e7551e8-0ab4-437f-83b8-772ba95c4f9b",
-    { expiresIn: "15m" }
+    { expiresIn: "10m" }
   );
 };
 
@@ -29,14 +29,14 @@ const generateRefreshToken = (user) => {
   return jwt.sign(
     { id: user.id, isAdmin: user.isAdmin },
     "a060d57c-4eb9-425f-bd51-7e86764ab7fb",
-    { expiresIn: "15m" }
+    { expiresIn: "10m" }
   );
 };
 
 const login = (req, res) => {
   const { username, password } = req.body;
   const user = users.find((user) => {
-    return user.username === username;
+    return user.username === username && user.password === password;
   });
   if (user) {
     //Generate an access token
@@ -84,8 +84,15 @@ const deleteUser = (req, res) => {
   }
 };
 
+const logoutUser = (req, res) => {
+  const refreshToken = req.body.token;
+  refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+  res.status(200).json("You Logged out successfully");
+};
+
 module.exports = {
   login,
   refresh,
   deleteUser,
+  logoutUser,
 };

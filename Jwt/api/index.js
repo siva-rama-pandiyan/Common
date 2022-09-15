@@ -1,5 +1,5 @@
 const express = require("express");
-const { login, refresh, deleteUser } = require("./Controller");
+const { login, refresh, deleteUser, logoutUser } = require("./Controller");
 const { verifyToken } = require("./MiddleWares");
 const app = express();
 
@@ -8,9 +8,11 @@ app.use(express.json());
 
 app.post("/api/refresh", refresh);
 
-app.post("/login", login);
+app.post("/api/login", login);
 
-app.delete("/delete/:id", verifyToken, deleteUser);
+app.delete("/api/delete/:id", verifyToken, deleteUser);
+
+app.post("/api/logout",verifyToken, logoutUser);
 
 app.listen(PORT, () => {
   console.log(`Server is running in ${PORT}`);

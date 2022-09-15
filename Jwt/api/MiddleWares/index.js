@@ -5,9 +5,9 @@ const verifyToken = (req, res, next) => {
   if (authHeaders) {
     jwt.verify(
       authHeaders,
-      "a060d57c-4eb9-425f-bd51-7e86764ab7fb",
+      "6e7551e8-0ab4-437f-83b8-772ba95c4f9b",
       (err, user) => {
-        if (err) return res.status(403).json("Token is inValid");
+        if (err) return res.status(403).json("Token is inValid",err);
         req.user = user;
         next();
       }
